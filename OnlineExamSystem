@@ -1,0 +1,84 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class OnlineExamSystem extends JFrame {
+    private JTextArea resultTextArea;
+    private JComboBox<String> subjectsComboBox;
+    private JTextField studentNameField;
+    private JRadioButton maleRadioButton, femaleRadioButton;
+    private JCheckBox aiCheckBox, seCheckBox, algoCheckBox, englishCheckBox;
+    private JScrollBar scrollBar;
+    private JButton submitButton;
+
+    public OnlineExamSystem() {
+        setTitle("Online Examination Management System");
+        setSize(800, 600);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setLayout(new FlowLayout());
+
+        // Subjects Combo Box
+        subjectsComboBox = new JComboBox<>(new String[]{"Java", "Artificial Intelligence", "Software Engineering", "Design and Analysis of Algorithms", "English"});
+        add(subjectsComboBox);
+
+        // Text Area
+        resultTextArea = new JTextArea(20, 50);
+        scrollBar = new JScrollBar(Adjustable.VERTICAL);
+        resultTextArea.add(scrollBar);
+        add(new JScrollPane(resultTextArea));
+
+        // Student Name Field
+        studentNameField = new JTextField(20);
+        add(new JLabel("Student Name:"));
+        add(studentNameField);
+
+        // Gender Radio Buttons
+        maleRadioButton = new JRadioButton("Male");
+        femaleRadioButton = new JRadioButton("Female");
+        ButtonGroup genderGroup = new ButtonGroup();
+        genderGroup.add(maleRadioButton);
+        genderGroup.add(femaleRadioButton);
+        add(new JLabel("Gender:"));
+        add(maleRadioButton);
+        add(femaleRadioButton);
+
+        // Checkboxes
+        aiCheckBox = new JCheckBox("Artificial Intelligence");
+        seCheckBox = new JCheckBox("Software Engineering");
+        algoCheckBox = new JCheckBox("Design and Analysis of Algorithms");
+        englishCheckBox = new JCheckBox("English");
+        add(new JLabel("Subjects:"));
+        add(aiCheckBox);
+        add(seCheckBox);
+        add(algoCheckBox);
+        add(englishCheckBox);
+
+        // Submit Button
+        submitButton = new JButton("Submit");
+        add(submitButton);
+
+        submitButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                StringBuilder result = new StringBuilder();
+                result.append("Student Name: ").append(studentNameField.getText()).append("\n");
+                result.append("Gender: ").append(maleRadioButton.isSelected() ? "Male" : "Female").append("\n");
+                result.append("Subjects: ");
+                if (aiCheckBox.isSelected()) result.append("Artificial Intelligence, ");
+                if (seCheckBox.isSelected()) result.append("Software Engineering, ");
+                if (algoCheckBox.isSelected()) result.append("Design and Analysis of Algorithms, ");
+                if (englishCheckBox.isSelected()) result.append("English, ");
+                result.delete(result.length() - 2, result.length());
+                result.append("\n");
+
+                result.append("Selected Subject: ").append(subjectsComboBox.getSelectedItem()).append("\n");
+
+                resultTextArea.setText(result.toString());
+            }
+        });
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> new OnlineExamSystem().setVisible(true));
+    }
+}
